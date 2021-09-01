@@ -5,16 +5,12 @@ import net.postcore.bizapi.api.v1.model.ClientListDTO;
 import net.postcore.bizapi.services.ClientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(ClientController.BASE_URL)
+@RequestMapping("/api/v1/clients")
 public class ClientController {
 
-    public static final String BASE_URL = "/api/v1/clients";
     private final ClientService clientService;
 
     public ClientController(ClientService clientService) {
@@ -28,8 +24,14 @@ public class ClientController {
                 new ClientListDTO(clientService.getAllClients()), HttpStatus.OK);
     }
 
-    @GetMapping({"{id}"})
+    @GetMapping({"/{id}"})
     public ResponseEntity<ClientDTO> getClientById(@PathVariable Long id){
-        return new ResponseEntity<ClientDTO>(clientService.getClientById(id), HttpStatus.OK);
+        return new ResponseEntity<>(clientService.getClientById(id), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<ClientDTO> createNewClient(@RequestBody ClientDTO clientDTO){
+        ClientDTO newClient = clientService.createNewClient(clientDTO);
+        return new ResponseEntity<>(newClient, HttpStatus.CREATED);
     }
 }

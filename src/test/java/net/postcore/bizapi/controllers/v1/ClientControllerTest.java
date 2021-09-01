@@ -15,13 +15,15 @@ import java.util.Arrays;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ClientControllerTest {
+public class ClientControllerTest extends AbstractRestControllerTest {
 
     @Mock
     ClientService clientService;
@@ -60,7 +62,7 @@ public class ClientControllerTest {
     @Test
     public void testGetClientById() throws Exception {
 
-        //given
+        // arrange
         ClientDTO client1 = new ClientDTO();
         client1.setFirstname("Sade");
         client1.setLastname("Adu");
@@ -68,10 +70,34 @@ public class ClientControllerTest {
 
         when(clientService.getClientById(anyLong())).thenReturn(client1);
 
-        //when
+        // act/assert
         mockMvc.perform(get("/api/v1/clients/2")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstname", equalTo("Sade")));
+    }
+
+    @Test
+    public void createNewClient() throws Exception {
+        // arrange
+        ClientDTO clientDTO = new ClientDTO();
+        clientDTO.setFirstname("Charlie");
+        clientDTO.setLastname("Brown");
+
+        ClientDTO returnDTO = new ClientDTO();
+        returnDTO.setFirstname(clientDTO.getFirstname());
+        returnDTO.setLastname(clientDTO.getLastname());
+        returnDTO.setClientUrl("/api/v1/clients/1");
+
+        when(clientService.createNewClient(any(ClientDTO.class))).thenReturn(returnDTO);
+
+        // act/assert
+        mockMvc.perform(post("/api/v1/clients/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(clientDTO)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.firstname", equalTo("Charlie")))
+                .andExpect(jsonPath("$.lastname", equalTo("Brown")))
+                .andExpect(jsonPath("$.client_url", equalTo("/api/v1/clients/1")));
     }    
 }

@@ -1,10 +1,14 @@
 package net.postcore.bizapi.api.v1.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ClientDTO {
 
     private Long id;
     private String firstname;
     private String lastname;
+
+    @JsonProperty("client_url")
     private String clientUrl;
 
     public Long getId() {

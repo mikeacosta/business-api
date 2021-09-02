@@ -18,8 +18,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -98,6 +97,30 @@ public class ClientControllerTest extends AbstractRestControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.firstname", equalTo("Charlie")))
                 .andExpect(jsonPath("$.lastname", equalTo("Brown")))
+                .andExpect(jsonPath("$.client_url", equalTo("/api/v1/clients/1")));
+    }
+
+    @Test
+    public void testUpdateClient() throws Exception {
+        // arrange
+        ClientDTO client = new ClientDTO();
+        client.setFirstname("Beyonce");
+        client.setLastname("Knowles");
+
+        ClientDTO returnDTO = new ClientDTO();
+        returnDTO.setFirstname(client.getFirstname());
+        returnDTO.setLastname(client.getLastname());
+        returnDTO.setClientUrl("/api/v1/clients/1");
+
+        when(clientService.saveClientByDTO(anyLong(), any(ClientDTO.class))).thenReturn(returnDTO);
+
+        // act/assert
+        mockMvc.perform(put("/api/v1/clients/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(client)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstname", equalTo("Beyonce")))
+                .andExpect(jsonPath("$.lastname", equalTo("Knowles")))
                 .andExpect(jsonPath("$.client_url", equalTo("/api/v1/clients/1")));
     }    
 }

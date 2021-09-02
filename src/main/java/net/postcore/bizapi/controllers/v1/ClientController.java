@@ -34,4 +34,10 @@ public class ClientController {
         ClientDTO newClient = clientService.createNewClient(clientDTO);
         return new ResponseEntity<>(newClient, HttpStatus.CREATED);
     }
+
+    @PutMapping({"/{id}"})
+    public ResponseEntity<ClientDTO> updateClient(@PathVariable Long id, @RequestBody ClientDTO clientDTO){
+        return new ResponseEntity<>(clientService.saveClientByDTO(id, clientDTO),
+                HttpStatus.OK);
+    }    
 }

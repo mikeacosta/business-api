@@ -11,4 +11,6 @@ public interface ClientService {
     ClientDTO getClientById(Long id);
 
     ClientDTO createNewClient(ClientDTO clientDTO);
+
+    ClientDTO saveClientByDTO(Long id, ClientDTO clientDTO);
 }

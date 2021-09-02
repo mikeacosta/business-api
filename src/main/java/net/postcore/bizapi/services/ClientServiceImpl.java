@@ -41,12 +41,20 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDTO createNewClient(ClientDTO clientDTO) {
-        Client client = clientMapper.clientDtoToClient(clientDTO);
+        return saveAndReturnDTO(clientMapper.clientDtoToClient(clientDTO));
+    }
+
+    private ClientDTO saveAndReturnDTO(Client client) {
         Client savedClient = clientRepository.save(client);
         ClientDTO returnDTO = clientMapper.clientToClientDTO(savedClient);
         returnDTO.setClientUrl("/api/v1/clients/" + savedClient.getId());
         return returnDTO;
     }
 
-
+    @Override
+    public ClientDTO saveClientByDTO(Long id, ClientDTO clientDTO) {
+        Client client = clientMapper.clientDtoToClient(clientDTO);
+        client.setId(id);
+        return saveAndReturnDTO(client);
+    }
 }

@@ -74,4 +74,9 @@ public class ClientServiceImpl implements ClientService {
             return returnDTO;
         }).orElseThrow(RuntimeException::new);
     }
+
+    @Override
+    public void deleteClientById(Long id) {
+        clientRepository.deleteById(id);
+    }
 }

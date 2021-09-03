@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 ;
 
@@ -103,5 +103,17 @@ public class ClientServiceTest {
         assertEquals(clientDTO.getFirstname(), savedDto.getFirstname());
         assertEquals(clientDTO.getLastname(), savedDto.getLastname());
         assertEquals("/api/v1/clients/1", savedDto.getClientUrl());
-    }    
+    }
+
+    @Test
+    public void deleteClientById() throws Exception {
+        // arrange
+        Long id = 1L;
+
+        // act
+        clientService.deleteClientById(id);
+
+        // assert
+        verify(clientRepository, times(1)).deleteById(anyLong());
+    }
 }

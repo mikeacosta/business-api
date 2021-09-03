@@ -57,4 +57,21 @@ public class ClientServiceImpl implements ClientService {
         client.setId(id);
         return saveAndReturnDTO(client);
     }
+
+    @Override
+    public ClientDTO patchClient(Long id, ClientDTO clientDTO) {
+        return clientRepository.findById(id).map(client -> {
+
+            if(clientDTO.getFirstname() != null)
+                client.setFirstname(clientDTO.getFirstname());
+
+            if(clientDTO.getLastname() != null)
+                client.setLastname(clientDTO.getLastname());
+
+            ClientDTO returnDTO = clientMapper.clientToClientDTO(clientRepository.save(client));
+            returnDTO.setClientUrl("/api/v1/clients/" + id);
+
+            return returnDTO;
+        }).orElseThrow(RuntimeException::new);
+    }
 }

@@ -13,4 +13,6 @@ public interface ClientService {
     ClientDTO createNewClient(ClientDTO clientDTO);
 
     ClientDTO saveClientByDTO(Long id, ClientDTO clientDTO);
+
+    ClientDTO patchClient(Long id, ClientDTO clientDTO);
 }

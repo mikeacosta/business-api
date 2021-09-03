@@ -2,6 +2,7 @@ package net.postcore.bizapi.controllers.v1;
 
 import net.postcore.bizapi.api.v1.model.ClientDTO;
 import net.postcore.bizapi.services.ClientService;
+import net.postcore.bizapi.services.ResourceNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -36,7 +37,9 @@ public class ClientControllerTest extends AbstractRestControllerTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(clientController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(clientController)
+                .setControllerAdvice(new RestResponseEntityExceptionHandler())
+                .build();
     }
 
     @Test
@@ -156,5 +159,14 @@ public class ClientControllerTest extends AbstractRestControllerTest {
                 .andExpect(status().isOk());
 
         verify(clientService).deleteClientById(anyLong());
-    }    
+    }
+
+    @Test
+    public void testNotFoundException() throws Exception {
+        when(clientService.getClientById(anyLong())).thenThrow(ResourceNotFoundException.class);
+
+        mockMvc.perform(get(ClientController.BASE_URL + "/7779311")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 }

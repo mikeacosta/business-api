@@ -37,7 +37,7 @@ public class ClientServiceImpl implements ClientService {
     public ClientDTO getClientById(Long id) {
         return clientRepository.findById(id)
                 .map(clientMapper::clientToClientDTO)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class ClientServiceImpl implements ClientService {
             returnDTO.setClientUrl(ClientController.BASE_URL + "/" + id);
 
             return returnDTO;
-        }).orElseThrow(RuntimeException::new);
+        }).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override

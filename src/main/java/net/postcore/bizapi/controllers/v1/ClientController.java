@@ -8,9 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/clients")
+@RequestMapping(ClientController.BASE_URL)
 public class ClientController {
 
+    public static final String BASE_URL = "/api/v1/clients";
     private final ClientService clientService;
 
     public ClientController(ClientService clientService) {

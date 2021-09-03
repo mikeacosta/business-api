@@ -2,6 +2,7 @@ package net.postcore.bizapi.services;
 
 import net.postcore.bizapi.api.v1.mapper.ClientMapper;
 import net.postcore.bizapi.api.v1.model.ClientDTO;
+import net.postcore.bizapi.controllers.v1.ClientController;
 import net.postcore.bizapi.domain.Client;
 import net.postcore.bizapi.repositories.ClientRepository;
 import org.junit.Before;
@@ -17,7 +18,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
-;
 
 public class ClientServiceTest {
 
@@ -79,7 +79,7 @@ public class ClientServiceTest {
 
         assertEquals(clientDTO.getFirstname(), savedDto.getFirstname());
         assertEquals(clientDTO.getLastname(), savedDto.getLastname());
-        assertEquals("/api/v1/clients/1", savedDto.getClientUrl());
+        assertEquals(ClientController.BASE_URL + "/1", savedDto.getClientUrl());
     }
 
     @Test
@@ -102,7 +102,7 @@ public class ClientServiceTest {
         // assert
         assertEquals(clientDTO.getFirstname(), savedDto.getFirstname());
         assertEquals(clientDTO.getLastname(), savedDto.getLastname());
-        assertEquals("/api/v1/clients/1", savedDto.getClientUrl());
+        assertEquals(ClientController.BASE_URL + "/1", savedDto.getClientUrl());
     }
 
     @Test

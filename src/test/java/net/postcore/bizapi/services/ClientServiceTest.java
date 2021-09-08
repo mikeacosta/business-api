@@ -41,9 +41,9 @@ public class ClientServiceTest {
         List<Client> clients = Arrays.asList(new Client(), new Client(), new Client());
         when(clientRepository.findAll()).thenReturn(clients);
 
-        List<ClientDTO> categoryDTOS = clientService.getAllClients();
+        List<ClientDTO> clientDTOs = clientService.getAllClients();
 
-        assertEquals(3, categoryDTOS.size());
+        assertEquals(3, clientDTOs.size());
     }
 
     @Test

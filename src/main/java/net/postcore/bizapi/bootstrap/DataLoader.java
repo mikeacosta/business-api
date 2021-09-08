@@ -2,8 +2,10 @@ package net.postcore.bizapi.bootstrap;
 
 import net.postcore.bizapi.domain.Category;
 import net.postcore.bizapi.domain.Client;
+import net.postcore.bizapi.domain.Provider;
 import net.postcore.bizapi.repositories.CategoryRepository;
 import net.postcore.bizapi.repositories.ClientRepository;
+import net.postcore.bizapi.repositories.ProviderRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -12,17 +14,19 @@ public class DataLoader implements CommandLineRunner {
 
     private final CategoryRepository categoryRepository;
     private final ClientRepository clientRepository;
+    private final ProviderRepository providerRepository;
 
-    public DataLoader(CategoryRepository categoryRepository, ClientRepository clientRepository) {
+    public DataLoader(CategoryRepository categoryRepository, ClientRepository clientRepository, ProviderRepository providerRepository) {
         this.categoryRepository = categoryRepository;
         this.clientRepository = clientRepository;
+        this.providerRepository = providerRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
-
         loadCategories();
         loadClients();
+        loadProviders();
     }
 
     private void loadCategories() {
@@ -69,5 +73,21 @@ public class DataLoader implements CommandLineRunner {
         clientRepository.save(client2);
         
         System.out.println("Client data Loaded = " + clientRepository.count() );
+    }
+
+    private void loadProviders() {
+        Provider provider1 = new Provider();
+        provider1.setName("Acme Services");
+        providerRepository.save(provider1);
+
+        Provider provider2 = new Provider();
+        provider2.setName("Smith Janitorial");
+        providerRepository.save(provider2);
+
+        Provider provider3 = new Provider();
+        provider3.setName("Cat's Catering");
+        providerRepository.save(provider3);
+
+        System.out.println("Provider data Loaded = " + providerRepository.count() );
     }
 }

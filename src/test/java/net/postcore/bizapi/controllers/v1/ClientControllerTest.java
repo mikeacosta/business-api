@@ -64,7 +64,6 @@ public class ClientControllerTest extends AbstractRestControllerTest {
 
     @Test
     public void testGetClientById() throws Exception {
-
         // arrange
         ClientDTO client1 = new ClientDTO();
         client1.setFirstname("Sade");

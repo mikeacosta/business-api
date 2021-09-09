@@ -33,6 +33,8 @@ public class ClientServiceIntgTest {
     @Autowired
     ProviderRepository providerRepository;
 
+    @Autowired WorkRepository workRepository;
+
     ClientService clientService;
 
     @Before
@@ -41,7 +43,7 @@ public class ClientServiceIntgTest {
         System.out.println(clientRepository.findAll().size());
 
         //setup data for testing
-        DataLoader dataLoader = new DataLoader(categoryRepository, clientRepository, providerRepository);
+        DataLoader dataLoader = new DataLoader(categoryRepository, clientRepository, providerRepository, workRepository);
         dataLoader.run();
 
         clientService = new ClientServiceImpl(ClientMapper.INSTANCE, clientRepository);

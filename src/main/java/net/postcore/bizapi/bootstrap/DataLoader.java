@@ -3,9 +3,11 @@ package net.postcore.bizapi.bootstrap;
 import net.postcore.bizapi.domain.Category;
 import net.postcore.bizapi.domain.Client;
 import net.postcore.bizapi.domain.Provider;
+import net.postcore.bizapi.domain.Work;
 import net.postcore.bizapi.repositories.CategoryRepository;
 import net.postcore.bizapi.repositories.ClientRepository;
 import net.postcore.bizapi.repositories.ProviderRepository;
+import net.postcore.bizapi.repositories.WorkRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -15,11 +17,13 @@ public class DataLoader implements CommandLineRunner {
     private final CategoryRepository categoryRepository;
     private final ClientRepository clientRepository;
     private final ProviderRepository providerRepository;
+    private final WorkRepository workRepository;
 
-    public DataLoader(CategoryRepository categoryRepository, ClientRepository clientRepository, ProviderRepository providerRepository) {
+    public DataLoader(CategoryRepository categoryRepository, ClientRepository clientRepository, ProviderRepository providerRepository, WorkRepository workRepository) {
         this.categoryRepository = categoryRepository;
         this.clientRepository = clientRepository;
         this.providerRepository = providerRepository;
+        this.workRepository = workRepository;
     }
 
     @Override
@@ -27,6 +31,7 @@ public class DataLoader implements CommandLineRunner {
         loadCategories();
         loadClients();
         loadProviders();
+        loadWorks();
     }
 
     private void loadCategories() {
@@ -88,6 +93,20 @@ public class DataLoader implements CommandLineRunner {
         provider3.setName("Cat's Catering");
         providerRepository.save(provider3);
 
-        System.out.println("Provider data Loaded = " + providerRepository.count() );
+        System.out.println("Provider data Loaded = " + providerRepository.count());
+    }
+
+    private void loadWorks() {
+        Work work1 = new Work();
+        work1.setName("Yard work");
+        work1.setDescription("Pulling weeds");
+        workRepository.save(work1);
+
+        Work work2 = new Work();
+        work2.setName("Interior design");
+        work2.setDescription("Certified design service");
+        workRepository.save(work2);
+
+        System.out.println("Work data Loaded = " + workRepository.count());
     }
 }

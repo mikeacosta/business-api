@@ -35,7 +35,7 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Override
     public ProviderListDTO getAllProviders() {
-        List<ProviderDTO> providerDTOS = providerRepository
+        List<ProviderDTO> providerDTOs = providerRepository
                 .findAll()
                 .stream()
                 .map(provider -> {
@@ -45,7 +45,7 @@ public class ProviderServiceImpl implements ProviderService {
                 })
                 .collect(Collectors.toList());
 
-        return new ProviderListDTO(providerDTOS);
+        return new ProviderListDTO(providerDTOs);
     }
 
     @Override

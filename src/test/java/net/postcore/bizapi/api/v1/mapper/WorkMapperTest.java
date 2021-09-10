@@ -11,7 +11,7 @@ public class WorkMapperTest {
     public static final String NAME = "yard work";
     public static final String DESC = "pull weeds";
 
-    WorkMapper workMapper = WorkMapper.INSTANCE;
+    WorkMapper workMapper = WorkMapper.getInstance();
 
     @Test
     public void workToWorkDTO() throws Exception {

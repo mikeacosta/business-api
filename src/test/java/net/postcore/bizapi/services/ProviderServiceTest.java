@@ -41,11 +41,11 @@ public class ProviderServiceTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
-        providerService = new ProviderServiceImpl(ProviderMapper.INSTANCE, providerRepository);
+        providerService = new ProviderServiceImpl(ProviderMapper.getInstance(), providerRepository);
     }
 
     @Test
-    public void getAllProviders() throws Exception {
+    public void getAllProviders() {
         // arrange
         List<Provider> providers = Arrays.asList(getProvider1(), getProvider2());
         given(providerRepository.findAll()).willReturn(providers);
@@ -59,7 +59,7 @@ public class ProviderServiceTest {
     }
 
     @Test
-    public void getProviderById() throws Exception {
+    public void getProviderById() {
         Provider provider = getProvider1();
         given(providerRepository.findById(anyLong())).willReturn(Optional.of(provider));
         ProviderDTO providerDTO = providerService.getProviderById(1L);

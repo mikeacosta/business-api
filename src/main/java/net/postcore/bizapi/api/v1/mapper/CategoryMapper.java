@@ -2,13 +2,28 @@ package net.postcore.bizapi.api.v1.mapper;
 
 import net.postcore.bizapi.api.v1.model.CategoryDTO;
 import net.postcore.bizapi.domain.Category;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface CategoryMapper {
+@Component
+public class CategoryMapper {
 
-    CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
+    private static CategoryMapper instance;
 
-    CategoryDTO categoryToCategoryDTO(Category category);
+    private CategoryMapper() {
+
+    }
+
+    public static CategoryMapper getInstance() {
+        if (instance == null)
+            instance = new CategoryMapper();
+
+        return instance;
+    }
+
+    public CategoryDTO categoryToCategoryDTO(Category category) {
+        CategoryDTO dto = new CategoryDTO();
+        dto.setId(category.getId());
+        dto.setName((category.getName()));
+        return dto;
+    }
 }

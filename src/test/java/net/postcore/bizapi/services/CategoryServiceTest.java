@@ -21,6 +21,7 @@ public class CategoryServiceTest {
     public static final Long ID = 2L;
     public static final String NAME = "test category";
     CategoryService categoryService;
+    CategoryMapper categoryMapper;
 
     @Mock
     CategoryRepository categoryRepository;
@@ -29,7 +30,7 @@ public class CategoryServiceTest {
     public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
 
-        categoryService = new CategoryServiceImpl(CategoryMapper.INSTANCE, categoryRepository);
+        categoryService = new CategoryServiceImpl(CategoryMapper.getInstance(), categoryRepository);
     }
 
     @Test
@@ -39,9 +40,9 @@ public class CategoryServiceTest {
 
         when(categoryRepository.findAll()).thenReturn(categories);
 
-        List<CategoryDTO> categoryDTOS = categoryService.getAllCategories();
+        List<CategoryDTO> categoryDTOs = categoryService.getAllCategories();
 
-        assertEquals(3, categoryDTOS.size());
+        assertEquals(3, categoryDTOs.size());
     }
 
     @Test

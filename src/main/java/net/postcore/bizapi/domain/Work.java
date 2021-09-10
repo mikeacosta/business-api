@@ -1,8 +1,10 @@
 package net.postcore.bizapi.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "works")
 public class Work extends BaseEntity {
 
     private String name;

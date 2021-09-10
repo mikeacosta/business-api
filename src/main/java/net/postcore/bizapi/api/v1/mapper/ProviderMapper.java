@@ -2,15 +2,35 @@ package net.postcore.bizapi.api.v1.mapper;
 
 import net.postcore.bizapi.api.v1.model.ProviderDTO;
 import net.postcore.bizapi.domain.Provider;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface ProviderMapper {
+@Component
+public class ProviderMapper {
 
-    ProviderMapper INSTANCE = Mappers.getMapper(ProviderMapper.class);
+    private static ProviderMapper instance;
 
-    ProviderDTO providerToProviderDTO(Provider provider);
+    private ProviderMapper() {
 
-    Provider providerDtoToProvider(ProviderDTO providerDTO);
+    }
+
+    public static ProviderMapper getInstance() {
+        if (instance == null)
+            instance = new ProviderMapper();
+
+        return instance;
+    }
+
+    public ProviderDTO providerToProviderDTO(Provider provider) {
+        ProviderDTO dto = new ProviderDTO();
+        dto.setId(provider.getId());
+        dto.setName((provider.getName()));
+        return dto;
+    }
+
+    public Provider providerDtoToProvider(ProviderDTO providerDTO) {
+        Provider provider = new Provider();
+        provider.setId(providerDTO.getId());
+        provider.setName((providerDTO.getName()));
+        return provider;
+    }
 }

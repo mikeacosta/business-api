@@ -46,7 +46,7 @@ public class ClientServiceIntgTest {
         DataLoader dataLoader = new DataLoader(categoryRepository, clientRepository, providerRepository, workRepository);
         dataLoader.run();
 
-        clientService = new ClientServiceImpl(ClientMapper.INSTANCE, clientRepository);
+        clientService = new ClientServiceImpl(ClientMapper.getInstance(), clientRepository);
     }
 
     @Test

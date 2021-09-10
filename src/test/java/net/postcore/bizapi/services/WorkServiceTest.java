@@ -32,7 +32,7 @@ public class WorkServiceTest {
     @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
-        workService = new WorkServiceImpl(WorkMapper.INSTANCE, workRepository);
+        workService = new WorkServiceImpl(WorkMapper.getInstance(), workRepository);
     }
     
     @Test

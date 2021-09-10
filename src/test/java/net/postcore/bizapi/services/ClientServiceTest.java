@@ -32,8 +32,7 @@ public class ClientServiceTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
-
-        clientService = new ClientServiceImpl(ClientMapper.INSTANCE, clientRepository);
+        clientService = new ClientServiceImpl(ClientMapper.getInstance(), clientRepository);
     }
 
     @Test

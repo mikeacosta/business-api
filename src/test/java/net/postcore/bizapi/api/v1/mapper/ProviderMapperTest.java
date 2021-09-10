@@ -10,7 +10,7 @@ public class ProviderMapperTest {
 
     public static final String NAME = "someName";
 
-    ProviderMapper providerMapper = ProviderMapper.INSTANCE;
+    ProviderMapper providerMapper = ProviderMapper.getInstance();
 
     @Test
     public void providerToProviderDTO() throws Exception {

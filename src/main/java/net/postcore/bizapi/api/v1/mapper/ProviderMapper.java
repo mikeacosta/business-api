@@ -24,6 +24,7 @@ public class ProviderMapper {
         ProviderDTO dto = new ProviderDTO();
         dto.setId(provider.getId());
         dto.setName((provider.getName()));
+        dto.setWorks(WorkMapper.getInstance().worksToWorkDTOs(provider.getWorks()));
         return dto;
     }
 
@@ -31,6 +32,7 @@ public class ProviderMapper {
         Provider provider = new Provider();
         provider.setId(providerDTO.getId());
         provider.setName((providerDTO.getName()));
+        provider.setWorks(WorkMapper.getInstance().workDTOsToWorks(providerDTO.getWorks()));
         return provider;
     }
 }

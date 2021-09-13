@@ -2,7 +2,10 @@ package net.postcore.bizapi.api.v1.mapper;
 
 import net.postcore.bizapi.api.v1.model.ProviderDTO;
 import net.postcore.bizapi.domain.Provider;
+import net.postcore.bizapi.domain.Work;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 @Component
 public class ProviderMapper {
@@ -32,7 +35,13 @@ public class ProviderMapper {
         Provider provider = new Provider();
         provider.setId(providerDTO.getId());
         provider.setName((providerDTO.getName()));
-        provider.setWorks(WorkMapper.getInstance().workDTOsToWorks(providerDTO.getWorks()));
+
+        // set provider for each work
+        Set<Work> works = WorkMapper.getInstance().workDTOsToWorks(providerDTO.getWorks());
+        works.forEach(work -> {
+            work.setProvider(provider);
+        });
+        provider.setWorks(works);
         return provider;
     }
 }

@@ -1,9 +1,8 @@
 package net.postcore.bizapi.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "works")
@@ -12,8 +11,9 @@ public class Work extends BaseEntity {
     private String name;
     private String description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "provider_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Provider provider;
 
     public String getName() {

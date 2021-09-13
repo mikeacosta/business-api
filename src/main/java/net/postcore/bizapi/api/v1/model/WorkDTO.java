@@ -2,11 +2,16 @@ package net.postcore.bizapi.api.v1.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.Column;
+
 public class WorkDTO {
 
     private Long id;
     private String name;
     private String description;
+
+    @Column(name = "provider_id")
+    private Long providerId;
 
     @JsonProperty("work_url")
     private String workUrl;
@@ -33,6 +38,14 @@ public class WorkDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(Long providerId) {
+        this.providerId = providerId;
     }
 
     public String getWorkUrl() {

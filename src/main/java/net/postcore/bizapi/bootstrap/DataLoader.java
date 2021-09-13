@@ -31,7 +31,6 @@ public class DataLoader implements CommandLineRunner {
         loadCategories();
         loadClients();
         loadProviders();
-        loadWorks();
     }
 
     private void loadCategories() {
@@ -83,10 +82,30 @@ public class DataLoader implements CommandLineRunner {
     private void loadProviders() {
         Provider provider1 = new Provider();
         provider1.setName("Acme Services");
+
+        Work work = new Work();
+        work.setName("Yard work");
+        work.setDescription("Pulling weeds");
+        work.setProvider(provider1);
+        provider1.getWorks().add(work);
+
+        work = new Work();
+        work.setName("Interior design");
+        work.setDescription("Certified design service");
+        work.setProvider(provider1);
+        provider1.getWorks().add(work);
+
         providerRepository.save(provider1);
 
         Provider provider2 = new Provider();
         provider2.setName("Smith Janitorial");
+
+        work = new Work();
+        work.setName("Disinfection service");
+        work.setDescription("Keep customers and employees safe");
+        work.setProvider(provider2);
+        provider2.getWorks().add(work);
+
         providerRepository.save(provider2);
 
         Provider provider3 = new Provider();
@@ -94,19 +113,6 @@ public class DataLoader implements CommandLineRunner {
         providerRepository.save(provider3);
 
         System.out.println("Provider data Loaded = " + providerRepository.count());
-    }
-
-    private void loadWorks() {
-        Work work1 = new Work();
-        work1.setName("Yard work");
-        work1.setDescription("Pulling weeds");
-        workRepository.save(work1);
-
-        Work work2 = new Work();
-        work2.setName("Interior design");
-        work2.setDescription("Certified design service");
-        workRepository.save(work2);
-
         System.out.println("Work data Loaded = " + workRepository.count());
     }
 }

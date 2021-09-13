@@ -2,7 +2,6 @@ package net.postcore.bizapi.services;
 
 import net.postcore.bizapi.api.v1.mapper.WorkMapper;
 import net.postcore.bizapi.api.v1.model.WorkDTO;
-import net.postcore.bizapi.api.v1.model.WorkDTO;
 import net.postcore.bizapi.api.v1.model.WorkListDTO;
 import net.postcore.bizapi.controllers.v1.WorkController;
 import net.postcore.bizapi.domain.Work;
@@ -57,7 +56,7 @@ public class WorkServiceImpl implements WorkService {
     private WorkDTO saveAndReturnDTO(Work work) {
         Work savedWork = workRepository.save(work);
         WorkDTO returnDTO = workMapper.workToWorkDTO(savedWork);
-        returnDTO.setWorkUrl(WorkController.BASE_URL + "/" + savedWork.getId());
+        returnDTO.setWorkUrl(getWorkUrl(savedWork.getId()));
         return returnDTO;
     }
 

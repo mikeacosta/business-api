@@ -1,9 +1,13 @@
 package net.postcore.bizapi.api.v1.mapper;
 
 import net.postcore.bizapi.api.v1.model.WorkDTO;
+import net.postcore.bizapi.domain.Category;
 import net.postcore.bizapi.domain.Provider;
 import net.postcore.bizapi.domain.Work;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,6 +27,7 @@ public class WorkMapperTest {
         Provider provider = new Provider();
         provider.setId(1L);
         work.setProvider(provider);
+        work.getCategories().addAll(new HashSet<>(Arrays.asList(new Category(), new Category())));
 
         // act
         WorkDTO workDTO = workMapper.workToWorkDTO(work);
@@ -31,6 +36,7 @@ public class WorkMapperTest {
         assertEquals(work.getName(), workDTO.getName());
         assertEquals(work.getDescription(), workDTO.getDescription());
         assertEquals(provider.getId(), workDTO.getProviderId());
+        assertEquals(2, workDTO.getCategories().size());
     }
 
     @Test

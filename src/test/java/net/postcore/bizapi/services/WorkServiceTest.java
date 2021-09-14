@@ -4,7 +4,10 @@ import net.postcore.bizapi.api.v1.mapper.WorkMapper;
 import net.postcore.bizapi.api.v1.model.WorkDTO;
 import net.postcore.bizapi.api.v1.model.WorkListDTO;
 import net.postcore.bizapi.controllers.v1.WorkController;
+import net.postcore.bizapi.domain.Category;
 import net.postcore.bizapi.domain.Work;
+import net.postcore.bizapi.repositories.CategoryRepository;
+import net.postcore.bizapi.repositories.ProviderRepository;
 import net.postcore.bizapi.repositories.WorkRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,11 +31,17 @@ public class WorkServiceTest {
     
     @Mock
     WorkRepository workRepository;
+
+    @Mock
+    ProviderRepository providerRepository;
+
+    @Mock
+    CategoryRepository categoryRepository;
     
     @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
-        workService = new WorkServiceImpl(WorkMapper.getInstance(), workRepository);
+        workService = new WorkServiceImpl(WorkMapper.getInstance(), workRepository, providerRepository, categoryRepository);
     }
     
     @Test
@@ -73,6 +82,10 @@ public class WorkServiceTest {
         Work savedWork = new Work();
         savedWork.setName(workDTO.getName());
         savedWork.setDescription(workDTO.getDescription());
+        Category category = new Category();
+        category.setId(3L);
+        category.setName("labor");
+        savedWork.getCategories().add(category);
         savedWork.setId(1L);
 
         when(workRepository.save(any(Work.class))).thenReturn(savedWork);
@@ -81,6 +94,7 @@ public class WorkServiceTest {
 
         assertEquals(workDTO.getName(), savedDto.getName());
         assertEquals(workDTO.getDescription(), savedDto.getDescription());
+        assertEquals(1, savedDto.getCategories().size());
         assertEquals(WorkController.BASE_URL + "/1", savedDto.getWorkUrl());
     }
 

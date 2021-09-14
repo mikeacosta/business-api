@@ -28,8 +28,11 @@ public class WorkMapper {
         dto.setId(work.getId());
         dto.setName(work.getName());
         dto.setDescription(work.getDescription());
+        
         if (work.getProvider() != null)
             dto.setProviderId(work.getProvider().getId());
+
+        dto.setCategories(CategoryMapper.getInstance().categoriesToCategoryDTOs(work.getCategories()));
 
         return dto;
     }
@@ -48,6 +51,7 @@ public class WorkMapper {
         work.setId(workDTO.getId());
         work.setName(workDTO.getName());
         work.setDescription(workDTO.getDescription());
+        work.setCategories(CategoryMapper.getInstance().categoryDtosToCategories(workDTO.getCategories()));
         return work;
     }
 

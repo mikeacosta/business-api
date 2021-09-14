@@ -3,6 +3,8 @@ package net.postcore.bizapi.api.v1.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Column;
+import java.util.HashSet;
+import java.util.Set;
 
 public class WorkDTO {
 
@@ -12,6 +14,8 @@ public class WorkDTO {
 
     @Column(name = "provider_id")
     private Long providerId;
+
+    private Set<CategoryDTO> categories = new HashSet<>();
 
     @JsonProperty("work_url")
     private String workUrl;
@@ -46,6 +50,14 @@ public class WorkDTO {
 
     public void setProviderId(Long providerId) {
         this.providerId = providerId;
+    }
+
+    public Set<CategoryDTO> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<CategoryDTO> categories) {
+        this.categories = categories;
     }
 
     public String getWorkUrl() {

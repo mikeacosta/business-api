@@ -4,7 +4,10 @@ import net.postcore.bizapi.api.v1.mapper.WorkMapper;
 import net.postcore.bizapi.api.v1.model.WorkDTO;
 import net.postcore.bizapi.api.v1.model.WorkListDTO;
 import net.postcore.bizapi.controllers.v1.WorkController;
+import net.postcore.bizapi.domain.Category;
 import net.postcore.bizapi.domain.Work;
+import net.postcore.bizapi.repositories.CategoryRepository;
+import net.postcore.bizapi.repositories.ProviderRepository;
 import net.postcore.bizapi.repositories.WorkRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +19,17 @@ public class WorkServiceImpl implements WorkService {
 
     private final WorkMapper workMapper;
     private final WorkRepository workRepository;
+    private final ProviderRepository providerRepository;
+    private final CategoryRepository categoryRepository;
 
-    public WorkServiceImpl(WorkMapper workMapper, WorkRepository workRepository) {
+    public WorkServiceImpl(WorkMapper workMapper,
+                           WorkRepository workRepository,
+                           ProviderRepository providerRepository,
+                           CategoryRepository categoryRepository) {
         this.workMapper = workMapper;
         this.workRepository = workRepository;
+        this.providerRepository = providerRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -50,7 +60,10 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     public WorkDTO createNewWork(WorkDTO workDTO) {
-        return saveAndReturnDTO(workMapper.workDtoToWork(workDTO));
+        Work newWork = workMapper.workDtoToWork(workDTO);
+        // TODO: missing providerId exception
+        newWork.setProvider(providerRepository.getById(workDTO.getProviderId()));
+        return saveAndReturnDTO(newWork);
     }
 
     private WorkDTO saveAndReturnDTO(Work work) {
@@ -64,6 +77,7 @@ public class WorkServiceImpl implements WorkService {
     public WorkDTO saveWorkByDTO(Long id, WorkDTO workDTO) {
         Work work = workMapper.workDtoToWork(workDTO);
         work.setId(id);
+        work.setProvider(providerRepository.getById(workDTO.getProviderId()));
         return saveAndReturnDTO(work);
     }
 

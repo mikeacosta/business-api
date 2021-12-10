@@ -1,15 +1,13 @@
 package net.postcore.bizapi.api.v1.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.hateoas.RepresentationModel;
 
-public class ClientDTO {
+public class ClientDTO extends RepresentationModel<ClientDTO> {
 
     private Long id;
     private String firstname;
     private String lastname;
-
-    @JsonProperty("client_url")
-    private String clientUrl;
 
     public Long getId() {
         return id;
@@ -33,13 +31,5 @@ public class ClientDTO {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
-    }
-
-    public String getClientUrl() {
-        return clientUrl;
-    }
-
-    public void setClientUrl(String clientUrl) {
-        this.clientUrl = clientUrl;
     }
 }

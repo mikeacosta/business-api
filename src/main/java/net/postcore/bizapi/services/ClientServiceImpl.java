@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+
 @Service
 public class ClientServiceImpl implements ClientService {
 
@@ -27,7 +29,7 @@ public class ClientServiceImpl implements ClientService {
                 .stream()
                 .map(client -> {
                     ClientDTO clientDTO = clientMapper.clientToClientDTO(client);
-                    clientDTO.setClientUrl(ClientController.BASE_URL + "/" + client.getId());
+                    clientDTO.add(linkTo(ClientController.class).slash(clientDTO.getId()).withSelfRel());
                     return clientDTO;
                 })
                 .collect(Collectors.toList());
@@ -48,7 +50,7 @@ public class ClientServiceImpl implements ClientService {
     private ClientDTO saveAndReturnDTO(Client client) {
         Client savedClient = clientRepository.save(client);
         ClientDTO returnDTO = clientMapper.clientToClientDTO(savedClient);
-        returnDTO.setClientUrl(ClientController.BASE_URL + "/" + savedClient.getId());
+        returnDTO.add(linkTo(ClientController.class).slash(returnDTO.getId()).withSelfRel());
         return returnDTO;
     }
 
@@ -70,7 +72,7 @@ public class ClientServiceImpl implements ClientService {
                 client.setLastname(clientDTO.getLastname());
 
             ClientDTO returnDTO = clientMapper.clientToClientDTO(clientRepository.save(client));
-            returnDTO.setClientUrl(ClientController.BASE_URL + "/" + id);
+            returnDTO.add(linkTo(ClientController.class).slash(returnDTO.getId()).withSelfRel());
 
             return returnDTO;
         }).orElseThrow(ResourceNotFoundException::new);

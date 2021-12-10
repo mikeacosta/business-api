@@ -78,7 +78,6 @@ public class ClientServiceTest {
 
         assertEquals(clientDTO.getFirstname(), savedDto.getFirstname());
         assertEquals(clientDTO.getLastname(), savedDto.getLastname());
-        assertEquals(ClientController.BASE_URL + "/1", savedDto.getClientUrl());
     }
 
     @Test
@@ -101,7 +100,6 @@ public class ClientServiceTest {
         // assert
         assertEquals(clientDTO.getFirstname(), savedDto.getFirstname());
         assertEquals(clientDTO.getLastname(), savedDto.getLastname());
-        assertEquals(ClientController.BASE_URL + "/1", savedDto.getClientUrl());
     }
 
     @Test

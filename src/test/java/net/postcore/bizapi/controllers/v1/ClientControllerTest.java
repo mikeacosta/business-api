@@ -47,12 +47,10 @@ public class ClientControllerTest extends AbstractRestControllerTest {
         ClientDTO client1 = new ClientDTO();
         client1.setFirstname("Paul");
         client1.setLastname("Weller");
-        client1.setClientUrl(ClientController.BASE_URL + "/1");
 
         ClientDTO client2 = new ClientDTO();
         client2.setFirstname("Sade");
         client2.setLastname("Adu");
-        client2.setClientUrl(ClientController.BASE_URL + "/2");
 
         when(clientService.getAllClients()).thenReturn(Arrays.asList(client1, client2));
 
@@ -68,7 +66,6 @@ public class ClientControllerTest extends AbstractRestControllerTest {
         ClientDTO client1 = new ClientDTO();
         client1.setFirstname("Sade");
         client1.setLastname("Adu");
-        client1.setClientUrl(ClientController.BASE_URL + "/2");
 
         when(clientService.getClientById(anyLong())).thenReturn(client1);
 
@@ -89,7 +86,6 @@ public class ClientControllerTest extends AbstractRestControllerTest {
         ClientDTO returnDTO = new ClientDTO();
         returnDTO.setFirstname(clientDTO.getFirstname());
         returnDTO.setLastname(clientDTO.getLastname());
-        returnDTO.setClientUrl(ClientController.BASE_URL + "/1");
 
         when(clientService.createNewClient(any(ClientDTO.class))).thenReturn(returnDTO);
 
@@ -99,8 +95,7 @@ public class ClientControllerTest extends AbstractRestControllerTest {
                 .content(asJsonString(clientDTO)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.firstname", equalTo("Charlie")))
-                .andExpect(jsonPath("$.lastname", equalTo("Brown")))
-                .andExpect(jsonPath("$.client_url", equalTo(ClientController.BASE_URL + "/1")));
+                .andExpect(jsonPath("$.lastname", equalTo("Brown")));
     }
 
     @Test
@@ -113,7 +108,6 @@ public class ClientControllerTest extends AbstractRestControllerTest {
         ClientDTO returnDTO = new ClientDTO();
         returnDTO.setFirstname(client.getFirstname());
         returnDTO.setLastname(client.getLastname());
-        returnDTO.setClientUrl(ClientController.BASE_URL + "/1");
 
         when(clientService.saveClientByDTO(anyLong(), any(ClientDTO.class))).thenReturn(returnDTO);
 
@@ -123,8 +117,7 @@ public class ClientControllerTest extends AbstractRestControllerTest {
                 .content(asJsonString(client)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstname", equalTo("Beyonce")))
-                .andExpect(jsonPath("$.lastname", equalTo("Knowles")))
-                .andExpect(jsonPath("$.client_url", equalTo(ClientController.BASE_URL + "/1")));
+                .andExpect(jsonPath("$.lastname", equalTo("Knowles")));
     }
 
     @Test
@@ -137,7 +130,6 @@ public class ClientControllerTest extends AbstractRestControllerTest {
         ClientDTO returnDTO = new ClientDTO();
         returnDTO.setFirstname(client.getFirstname());
         returnDTO.setLastname("Mercury");
-        returnDTO.setClientUrl(ClientController.BASE_URL + "/1");
 
         when(clientService.patchClient(anyLong(), any(ClientDTO.class))).thenReturn(returnDTO);
 
@@ -147,8 +139,7 @@ public class ClientControllerTest extends AbstractRestControllerTest {
                         .content(asJsonString(client)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstname", equalTo("Freddie")))
-                .andExpect(jsonPath("$.lastname", equalTo("Mercury")))
-                .andExpect(jsonPath("$.client_url", equalTo(ClientController.BASE_URL + "/1")));
+                .andExpect(jsonPath("$.lastname", equalTo("Mercury")));
     }
 
     @Test

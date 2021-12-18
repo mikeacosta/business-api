@@ -3,7 +3,6 @@ package net.postcore.bizapi.services;
 import net.postcore.bizapi.api.v1.mapper.ProviderMapper;
 import net.postcore.bizapi.api.v1.model.ProviderDTO;
 import net.postcore.bizapi.api.v1.model.ProviderListDTO;
-import net.postcore.bizapi.controllers.v1.ProviderController;
 import net.postcore.bizapi.domain.Provider;
 import net.postcore.bizapi.repositories.ProviderRepository;
 import org.junit.Before;
@@ -16,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -98,7 +96,7 @@ public class ProviderServiceTest {
         //then
         // 'should' defaults to times = 1
         then(providerRepository).should().save(any(Provider.class));
-        assertThat(savedProviderDTO.getProviderUrl(), containsString("1"));
+        assertEquals(savedProviderDTO.getName(), NAME_1);
     }
 
     @Test
@@ -118,7 +116,6 @@ public class ProviderServiceTest {
 
         // assert
         assertEquals(providerDTO.getName(), savedDto.getName());
-        assertEquals(ProviderController.BASE_URL + "/1", savedDto.getProviderUrl());
     }
 
     @Test

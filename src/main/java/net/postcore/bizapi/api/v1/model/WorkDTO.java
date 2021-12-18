@@ -1,12 +1,13 @@
 package net.postcore.bizapi.api.v1.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.Column;
 import java.util.HashSet;
 import java.util.Set;
 
-public class WorkDTO {
+public class WorkDTO extends RepresentationModel<WorkDTO> {
 
     private Long id;
     private String name;
@@ -16,9 +17,6 @@ public class WorkDTO {
     private Long providerId;
 
     private Set<CategoryDTO> categories = new HashSet<>();
-
-    @JsonProperty("work_url")
-    private String workUrl;
 
     public Long getId() {
         return id;
@@ -58,13 +56,5 @@ public class WorkDTO {
 
     public void setCategories(Set<CategoryDTO> categories) {
         this.categories = categories;
-    }
-
-    public String getWorkUrl() {
-        return workUrl;
-    }
-
-    public void setWorkUrl(String workUrl) {
-        this.workUrl = workUrl;
     }
 }

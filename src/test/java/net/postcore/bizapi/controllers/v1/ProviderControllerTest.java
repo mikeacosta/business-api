@@ -48,11 +48,9 @@ public class ProviderControllerTest {
     public void testListProviders() throws Exception {
         ProviderDTO provider1 = new ProviderDTO();
         provider1.setName("Paul");
-        provider1.setProviderUrl(ProviderController.BASE_URL + "/1");
 
         ProviderDTO provider2 = new ProviderDTO();
         provider2.setName("Sade");
-        provider2.setProviderUrl(ProviderController.BASE_URL + "/2");
 
         when(providerService.getAllProviders()).thenReturn(new ProviderListDTO(Arrays.asList(provider1, provider2)));
 
@@ -67,7 +65,6 @@ public class ProviderControllerTest {
         // arrange
         ProviderDTO provider1 = new ProviderDTO();
         provider1.setName("Dude");
-        provider1.setProviderUrl(ProviderController.BASE_URL + "/2");
 
         when(providerService.getProviderById(anyLong())).thenReturn(provider1);
 
@@ -86,7 +83,6 @@ public class ProviderControllerTest {
 
         ProviderDTO returnDTO = new ProviderDTO();
         returnDTO.setName(providerDTO.getName());
-        returnDTO.setProviderUrl(ProviderController.BASE_URL + "/1");
 
         when(providerService.createNewProvider(any(ProviderDTO.class))).thenReturn(returnDTO);
 
@@ -95,8 +91,7 @@ public class ProviderControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(providerDTO)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name", equalTo("Business Company")))
-                .andExpect(jsonPath("$.provider_url", equalTo(ProviderController.BASE_URL + "/1")));
+                .andExpect(jsonPath("$.name", equalTo("Business Company")));
     }
 
     @Test
@@ -107,7 +102,6 @@ public class ProviderControllerTest {
 
         ProviderDTO returnDTO = new ProviderDTO();
         returnDTO.setName(provider.getName());
-        returnDTO.setProviderUrl(ProviderController.BASE_URL + "/1");
 
         when(providerService.saveProviderByDTO(anyLong(), any(ProviderDTO.class))).thenReturn(returnDTO);
 
@@ -116,8 +110,7 @@ public class ProviderControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(provider)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", equalTo("Bob Builders")))
-                .andExpect(jsonPath("$.provider_url", equalTo(ProviderController.BASE_URL + "/1")));
+                .andExpect(jsonPath("$.name", equalTo("Bob Builders")));
     }
 
     @Test
@@ -128,7 +121,6 @@ public class ProviderControllerTest {
 
         ProviderDTO returnDTO = new ProviderDTO();
         returnDTO.setName(provider.getName());
-        returnDTO.setProviderUrl(ProviderController.BASE_URL + "/1");
 
         when(providerService.patchProvider(anyLong(), any(ProviderDTO.class))).thenReturn(returnDTO);
 
@@ -137,8 +129,7 @@ public class ProviderControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(provider)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", equalTo("Hank the Handyman")))
-                .andExpect(jsonPath("$.provider_url", equalTo(ProviderController.BASE_URL + "/1")));
+                .andExpect(jsonPath("$.name", equalTo("Hank the Handyman")));
     }
 
     @Test

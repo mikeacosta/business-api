@@ -3,7 +3,6 @@ package net.postcore.bizapi.services;
 import net.postcore.bizapi.api.v1.mapper.WorkMapper;
 import net.postcore.bizapi.api.v1.model.WorkDTO;
 import net.postcore.bizapi.api.v1.model.WorkListDTO;
-import net.postcore.bizapi.controllers.v1.WorkController;
 import net.postcore.bizapi.domain.Category;
 import net.postcore.bizapi.domain.Work;
 import net.postcore.bizapi.repositories.CategoryRepository;
@@ -95,7 +94,6 @@ public class WorkServiceTest {
         assertEquals(workDTO.getName(), savedDto.getName());
         assertEquals(workDTO.getDescription(), savedDto.getDescription());
         assertEquals(1, savedDto.getCategories().size());
-        assertEquals(WorkController.BASE_URL + "/1", savedDto.getWorkUrl());
     }
 
     @Test
@@ -118,7 +116,6 @@ public class WorkServiceTest {
         // assert
         assertEquals(workDTO.getName(), savedDto.getName());
         assertEquals(workDTO.getDescription(), savedDto.getDescription());
-        assertEquals(WorkController.BASE_URL + "/1", savedDto.getWorkUrl());
     }
 
     @Test

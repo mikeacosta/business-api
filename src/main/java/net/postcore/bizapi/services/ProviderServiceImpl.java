@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+
 @Service
 public class ProviderServiceImpl implements ProviderService {
 
@@ -27,7 +29,7 @@ public class ProviderServiceImpl implements ProviderService {
         return providerRepository.findById(id)
                 .map(providerMapper::providerToProviderDTO)
                 .map(providerDTO -> {
-                    providerDTO.setProviderUrl(getProviderUrl(id));
+                    providerDTO.add(linkTo(ProviderController.class).slash(providerDTO.getId()).withSelfRel());
                     return providerDTO;
                 })
                 .orElseThrow(ResourceNotFoundException::new);
@@ -40,7 +42,7 @@ public class ProviderServiceImpl implements ProviderService {
                 .stream()
                 .map(provider -> {
                     ProviderDTO providerDTO = providerMapper.providerToProviderDTO(provider);
-                    providerDTO.setProviderUrl(getProviderUrl(provider.getId()));
+                    providerDTO.add(linkTo(ProviderController.class).slash(providerDTO.getId()).withSelfRel());
                     return providerDTO;
                 })
                 .collect(Collectors.toList());
@@ -77,16 +79,11 @@ public class ProviderServiceImpl implements ProviderService {
         providerRepository.deleteById(id);
     }
 
-    private String getProviderUrl(Long id) {
-        return ProviderController.BASE_URL + "/" + id;
-    }
-
     private ProviderDTO saveAndReturnDTO(Provider provider) {
         Provider savedProvider = providerRepository.save(provider);
 
         ProviderDTO returnDto = providerMapper.providerToProviderDTO(savedProvider);
-
-        returnDto.setProviderUrl(getProviderUrl(savedProvider.getId()));
+        returnDto.add(linkTo(ProviderController.class).slash(returnDto.getId()).withSelfRel());
 
         return returnDto;
     }

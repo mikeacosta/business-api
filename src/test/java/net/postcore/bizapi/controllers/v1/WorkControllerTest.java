@@ -48,12 +48,10 @@ public class WorkControllerTest extends AbstractRestControllerTest {
         WorkDTO work1 = new WorkDTO();
         work1.setName("Acme Services");
         work1.setDescription("Service provider");
-        work1.setWorkUrl(WorkController.BASE_URL + "/1");
 
         WorkDTO work2 = new WorkDTO();
         work2.setName("Smith Janitorial");
         work2.setDescription("Custodian services");
-        work2.setWorkUrl(WorkController.BASE_URL + "/2");
 
         when(workService.getAllWorks()).thenReturn(new WorkListDTO(Arrays.asList(work1, work2)));
 
@@ -69,7 +67,6 @@ public class WorkControllerTest extends AbstractRestControllerTest {
         WorkDTO work1 = new WorkDTO();
         work1.setName("Bob Builders");
         work1.setDescription("Construction services");
-        work1.setWorkUrl(WorkController.BASE_URL + "/2");
 
         when(workService.getWorkById(anyLong())).thenReturn(work1);
 
@@ -91,7 +88,6 @@ public class WorkControllerTest extends AbstractRestControllerTest {
         WorkDTO returnDTO = new WorkDTO();
         returnDTO.setName(workDTO.getName());
         returnDTO.setDescription(workDTO.getDescription());
-        returnDTO.setWorkUrl(WorkController.BASE_URL + "/1");
 
         when(workService.createNewWork(any(WorkDTO.class))).thenReturn(returnDTO);
 
@@ -101,8 +97,7 @@ public class WorkControllerTest extends AbstractRestControllerTest {
                 .content(asJsonString(workDTO)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", equalTo("Acme Services")))
-                .andExpect(jsonPath("$.description", equalTo("Service provider")))
-                .andExpect(jsonPath("$.work_url", equalTo(WorkController.BASE_URL + "/1")));
+                .andExpect(jsonPath("$.description", equalTo("Service provider")));
     }
 
     @Test
@@ -115,7 +110,6 @@ public class WorkControllerTest extends AbstractRestControllerTest {
         WorkDTO returnDTO = new WorkDTO();
         returnDTO.setName(work.getName());
         returnDTO.setDescription(work.getDescription());
-        returnDTO.setWorkUrl(WorkController.BASE_URL + "/1");
 
         when(workService.saveWorkByDTO(anyLong(), any(WorkDTO.class))).thenReturn(returnDTO);
 
@@ -125,8 +119,7 @@ public class WorkControllerTest extends AbstractRestControllerTest {
                 .content(asJsonString(work)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo("Cat's Catering")))
-                .andExpect(jsonPath("$.description", equalTo("We make food")))
-                .andExpect(jsonPath("$.work_url", equalTo(WorkController.BASE_URL + "/1")));
+                .andExpect(jsonPath("$.description", equalTo("We make food")));
     }
 
     @Test
@@ -139,7 +132,6 @@ public class WorkControllerTest extends AbstractRestControllerTest {
         WorkDTO returnDTO = new WorkDTO();
         returnDTO.setName(work.getName());
         returnDTO.setDescription("Pulling weeds");
-        returnDTO.setWorkUrl(WorkController.BASE_URL + "/1");
 
         when(workService.patchWork(anyLong(), any(WorkDTO.class))).thenReturn(returnDTO);
 
@@ -149,8 +141,7 @@ public class WorkControllerTest extends AbstractRestControllerTest {
                         .content(asJsonString(work)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo("Yard work")))
-                .andExpect(jsonPath("$.description", equalTo("Pulling weeds")))
-                .andExpect(jsonPath("$.work_url", equalTo(WorkController.BASE_URL + "/1")));
+                .andExpect(jsonPath("$.description", equalTo("Pulling weeds")));
     }
 
     @Test

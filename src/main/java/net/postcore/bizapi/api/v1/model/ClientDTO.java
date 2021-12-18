@@ -1,6 +1,5 @@
 package net.postcore.bizapi.api.v1.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.RepresentationModel;
 
 public class ClientDTO extends RepresentationModel<ClientDTO> {

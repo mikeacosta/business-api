@@ -4,7 +4,6 @@ import net.postcore.bizapi.api.v1.mapper.WorkMapper;
 import net.postcore.bizapi.api.v1.model.WorkDTO;
 import net.postcore.bizapi.api.v1.model.WorkListDTO;
 import net.postcore.bizapi.controllers.v1.WorkController;
-import net.postcore.bizapi.domain.Category;
 import net.postcore.bizapi.domain.Work;
 import net.postcore.bizapi.repositories.CategoryRepository;
 import net.postcore.bizapi.repositories.ProviderRepository;
@@ -13,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @Service
 public class WorkServiceImpl implements WorkService {
@@ -37,7 +38,7 @@ public class WorkServiceImpl implements WorkService {
         return workRepository.findById(id)
                 .map(workMapper::workToWorkDTO)
                 .map(workDTO -> {
-                    workDTO.setWorkUrl(getWorkUrl(id));
+                    workDTO.add(linkTo(WorkController.class).slash(workDTO.getId()).withSelfRel());
                     return workDTO;
                 })
                 .orElseThrow(ResourceNotFoundException::new);
@@ -50,7 +51,7 @@ public class WorkServiceImpl implements WorkService {
                 .stream()
                 .map(work -> {
                     WorkDTO workDTO = workMapper.workToWorkDTO(work);
-                    workDTO.setWorkUrl(getWorkUrl(work.getId()));
+                    workDTO.add(linkTo(WorkController.class).slash(workDTO.getId()).withSelfRel());
                     return workDTO;
                 })
                 .collect(Collectors.toList());
@@ -68,9 +69,10 @@ public class WorkServiceImpl implements WorkService {
 
     private WorkDTO saveAndReturnDTO(Work work) {
         Work savedWork = workRepository.save(work);
-        WorkDTO returnDTO = workMapper.workToWorkDTO(savedWork);
-        returnDTO.setWorkUrl(getWorkUrl(savedWork.getId()));
-        return returnDTO;
+        WorkDTO returnDto = workMapper.workToWorkDTO(savedWork);
+
+        returnDto.add(linkTo(WorkController.class).slash(returnDto.getId()).withSelfRel());
+        return returnDto;
     }
 
     @Override
@@ -98,9 +100,5 @@ public class WorkServiceImpl implements WorkService {
     @Override
     public void deleteWorkById(Long id) {
         workRepository.deleteById(id);
-    }
-
-    private String getWorkUrl(Long id) {
-        return WorkController.BASE_URL + "/" + id;
     }
 }
